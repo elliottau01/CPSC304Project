@@ -1,4 +1,4 @@
-# project_template
+# CPSC304 Project (Group 34)
 # Make sure to fill out the README with the information specified in the project description!
 
 This is the CPSC304 project of Group 34 with Elliott Au, Devin Huang and David Lin. \\
