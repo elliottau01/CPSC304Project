@@ -2,23 +2,29 @@
 -- 	Database Table Creation
 --
 
-drop table student cascade constraints;
-drop table faculty cascade constraints;
-drop table class cascade constraints;
-drop table enrolled cascade constraints;
-drop table emp cascade constraints;
-drop table works cascade constraints;
-drop table dept cascade constraints;
-drop table flights cascade constraints;
-drop table aircraft cascade constraints;
-drop table certified cascade constraints;
-drop table employees cascade constraints;
-drop table suppliers cascade constraints;
-drop table parts cascade constraints;
-drop table catalog cascade constraints;
-drop table sailors cascade constraints;
-drop table boats cascade constraints;
-drop table reserves cascade constraints;
+drop table ElectoralDistrict1 cascade constraints;
+drop table ElectoralDistrict2 cascade constraints;
+drop table PoliticalParty1 cascade constraints;
+drop table PoliticalParty2 cascade constraints;
+drop table PoliticalParty3 cascade constraints;
+drop table CandidatePartyMembership1 cascade constraints;
+drop table CandidatePartyMembership2 cascade constraints;
+drop table ElectionWin cascade constraints;
+drop table Elect cascade constraints;
+drop table MPGenerate1 cascade constraints;
+drop table MPGenerate2 cascade constraints;
+drop table PrimeMinister cascade constraints;
+drop table CabinetMember cascade constraints;
+drop table ParliamentaryGroup cascade constraints;
+drop table SenatorRecommendParliamentaryGroupMembership1 cascade constraints;
+drop table SenatorRecommendParliamentaryGroupMembership2 cascade constraints;
+drop table Affiliate cascade constraints;
+drop table Committee cascade constraints;
+drop table CommitteeMembership cascade constraints;
+drop table BillIntroduce1 cascade constraints;
+drop table BillIntroduce2 cascade constraints;
+drop table SenatorVote cascade constraints;
+drop table MPVote cascade constraints;
 
 --
 -- Constants
