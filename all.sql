@@ -11,8 +11,9 @@ drop table CandidatePartyMembership1 cascade constraints;
 drop table CandidatePartyMembership2 cascade constraints;
 drop table ElectionWin cascade constraints;
 drop table Elect cascade constraints;
-drop table MPGenerate1 cascade constraints;
-drop table MPGenerate2 cascade constraints;
+drop table MemberOfParliament cascade constraints;
+drop table Form1 cascade constraints;
+drop table Form2 cascade constraints;
 drop table PrimeMinister cascade constraints;
 drop table CabinetMember cascade constraints;
 drop table ParliamentaryGroup cascade constraints;
@@ -23,6 +24,7 @@ drop table Committee cascade constraints;
 drop table CommitteeMembership cascade constraints;
 drop table BillIntroduce1 cascade constraints;
 drop table BillIntroduce2 cascade constraints;
+drop table Amend cascade constraints;
 drop table SenatorVote cascade constraints;
 drop table MPVote cascade constraints;
 
@@ -50,7 +52,7 @@ create table PoliticalParty1 (
 	partyName varchar2 (50) primary key,
 	ideology varchar2 (50),
 	dateRegistered date,
-	numSeatInParliament int
+	numSeatsInParliament int
 );
 
 create table PoliticalParty2 (
@@ -59,7 +61,7 @@ create table PoliticalParty2 (
 );
 
 create table PoliticalParty3 (
-	numSeatInParliament int primary key,
+	numSeatsInParliament int primary key,
 	status varchar2(50)
 );
 
@@ -68,17 +70,17 @@ create table CandidatePartyMembership1 (
 	birthDate date,
 	sex char (1), --M/F/N
 	partyName varchar2 (50),
-	dateJoined date
+	dateJoined date,
+	foreign key (partyName) references PoliticalParty1
 );
 
 create table CandidatePartyMembership2 (
 	birthDate date primary key,
-	age int,
-	
+	age int
 );
 
 create table ElectionWin (
-	electionYear year,
+	electionYear number (4),
 	districtName varchar2 (50),
 	winner varchar2 (50),
 	primary key (electionYear, districtName),
@@ -88,52 +90,58 @@ create table ElectionWin (
 
 create table Elect (
 	candidateName varchar2 (50),
-	electionYear year,
+	electionYear number (4),
 	districtName varchar2 (50),
 	ballotCount int,
 	primary key (candidateName, electionYear, districtName),
 	foreign key (candidateName) references CandidatePartyMembership1,
-	foreign key (electionYear) references ElectionWin,
-	foreign key (districtName) references ElectoralDistrict1
+	foreign key (electionYear, districtName) references ElectionWin (electionYear, districtName)
 );
 
-create table MPGenerate1 (
+create table MemberOfParliament (
+	mpName varchar2 (50) primary key,
+	seatNumber int
+);
+
+create table Form1 (
 	mpName varchar2 (50),
-	seatNumber int,
+	electionYear number (4),
 	districtName varchar2 (50),
-	electionYear year,
-	primary key (mpName, districtName, electionYear),
-	foreign key (districtName) references ElectoralDistrict1,
-	foreign key (electionYear) references ElectionWin
+	primary key (mpName, electionYear, districtName),
+	foreign key (mpName) references MemberOfParliament,
+	foreign key (electionYear, districtName) references ElectionWin (electionYear, districtName)
 );
 
-create table MPGenerate2 (
-	electionYear year primary key,
-	term int
+create table Form2 (
+	electionYear number (4),
+	districtName varchar2 (50),
+	num int,
+	primary key (electionYear, districtName),
+	foreign key (electionYear, districtName) references ElectionWin (electionYear, districtName)
 );
 
 create table PrimeMinister (
 	pmName varchar2 (50) primary key,
 	num int,
 	ministry varchar2 (50),
-	foreign key (pmName) references MPGenerate1 (mpName)
+	foreign key (pmName) references MemberOfParliament
 );
 
 create table CabinetMember (
 	cmName varchar2 (50) primary key,
 	ministry varchar2 (50),
-	foreign key (cmName) references MPGenerate1 (mpName)
+	foreign key (cmName) references MemberOfParliament
 );
 
 create table ParliamentaryGroup (
 	parliamentaryGroupName varchar2 (50) primary key,
-	yearFounded year
+	dateFounded date
 );
 
 create table SenatorRecommendParliamentaryGroupMembership1 (
 	senatorName varchar2 (50) primary key,
 	birthDate date,
-	sex char (3), --M/F/N
+	sex char (1), --M/F/N
 	recommendedPMName varchar2 (50) not null,
 	parliamentaryGroupName varchar2 (50),
 	appointmentDate date,
@@ -142,7 +150,7 @@ create table SenatorRecommendParliamentaryGroupMembership1 (
 );
 
 create table SenatorRecommendParliamentaryGroupMembership2 (
-	birthDate date primary name,
+	birthDate date primary key,
 	age int
 );
 
@@ -150,7 +158,7 @@ create table Affiliate (
 	partyName varchar2 (50),
 	parliamentaryGroupName varchar2 (50),
 	primary key (partyName, parliamentaryGroupName)
-)
+);
 
 create table Committee (
 	committeeName varchar (50) primary key,
@@ -161,7 +169,7 @@ create table CommitteeMembership (
 	mpName varchar (50),
 	committeeName varchar (50),
 	primary key (mpName, committeeName),
-	foreign key (mpName) references MPGenerate1,
+	foreign key (mpName) references MemberOfParliament,
 	foreign key (committeeName) references Committee
 );
 
@@ -170,24 +178,26 @@ create table BillIntroduce1 (
 	title varchar2 (255),
 	introducer varchar (50) not null,
 	dateIntroduced date,
-	foreign key (introducer) references MPGenerate1 (mpName)
+	foreign key (introducer) references MemberOfParliament (mpName)
 );
 
 create table BillIntroduce2 (
 	title varchar2 (255) primary key,
-	content text
+	content varchar2 (1000)
 );
 
 create table Amend (
 	committeeName varchar2 (50),
 	billNumber int,
-	primary key (committeeName, billNumber)
-)
+	primary key (committeeName, billNumber),
+	foreign key (committeeName) references Committee,
+	foreign key (billNumber) references BillIntroduce1
+);
 
 create table SenatorVote (
 	billNumber int,
 	senatorName varchar (50),
-	vote boolean,
+	vote char(1), --y/n/a
 	primary key (billNumber, senatorName),
 	foreign key (billNumber) references BillIntroduce1,
 	foreign key (senatorName) references SenatorRecommendParliamentaryGroupMembership1
@@ -196,10 +206,10 @@ create table SenatorVote (
 create table MPVote (
 	billNumber int,
 	mpName varchar (50),
-	vote boolean,
+	vote char(1), --y/n/a
 	primary key (billNumber, mpName),
 	foreign key (billNumber) references BillIntroduce1,
-	foreign key (mpName) references MPGenerate1
+	foreign key (mpName) references MemberOfParliament
 );
 
 --
