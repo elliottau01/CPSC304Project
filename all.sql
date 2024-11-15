@@ -6289,3 +6289,70 @@ VALUES ('Leah Taylor Roy', 'Standing Committee on Environment and Sustainable De
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
 VALUES ('Adam van Koeverden', 'Standing Committee on Environment and Sustainable Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Wayne Long', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Mel Arnold', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Gord Johns', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Ken Hardie', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Rick Perkins', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Jaime Battiste', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Yvonne Jones', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Blaine Calkins', 'Standing Committee on Fisheries and Oceans');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Ziad Aboultaif', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Nathalie Sinclair-Desgagné', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Han Dong', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Sherry Romanado', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Philip Lawrence', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Tako Van Popta', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Brenda Shanahan', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Jean Yip', 'Standing Committee on Public Accounts');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Garnett Genuis', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Heather McPherson', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Anita Vandenbeld', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Sameer Zuberi', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Heather McPherson', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Michael Barrett', 'Standing Committee on Foreign Affairs and International Development');
+
