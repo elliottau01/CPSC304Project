@@ -6419,3 +6419,70 @@ VALUES (119, 'Universal Basic Income Pilot Act', 'Nathaniel Erskine-Smith', TO_D
 
 INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
 VALUES (120, 'Digital Innovation and Technology Act', 'François-Philippe Champagne', TO_DATE('2025-02-12', 'YYYY-MM-DD'));
+
+
+
+
+
+
+
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Climate Change Action Act', 'An act to address climate change by setting carbon emission reduction targets and promoting green energy.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Affordable Housing Act', 'An act to increase affordable housing across the country by investing in new construction and providing rent subsidies.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('National Health Strategy Act', 'An act to improve healthcare outcomes through increased funding, better mental health services, and reduced wait times.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Digital Privacy Protection Act', 'An act to enhance digital privacy protections by requiring companies to obtain explicit consent for data use and ensuring transparency.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Clean Energy Promotion Act', 'An act to encourage the development and use of clean energy sources by offering tax incentives and grants for research.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Education Equality Act', 'An act to ensure equal access to quality education by standardizing funding across regions and addressing disparities.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Indigenous Rights Recognition Act', 'An act to recognize and protect the rights of Indigenous peoples, including land rights and self-governance.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Cybersecurity Enhancement Act', 'An act to strengthen national cybersecurity defenses and improve information sharing among government agencies.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Small Business Support Act', 'An act to provide financial relief and resources for small businesses affected by economic downturns.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Veterans Care Improvement Act', 'An act to enhance healthcare and support services for veterans, including mental health care and job training programs.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Green Infrastructure Development Act', 'An act to fund and promote environmentally friendly infrastructure projects, including public transit and renewable energy installations.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Mental Health Support Expansion Act', 'An act to expand access to mental health services by increasing funding for treatment centers and training for mental health professionals.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('National Childcare Accessibility Act', 'An act to make high-quality childcare more accessible and affordable for families by providing federal subsidies and support for early childhood education.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Transportation Safety Improvement Act', 'An act to enhance safety regulations for all forms of public transportation, including stricter standards and regular inspections.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Economic Recovery and Jobs Act', 'An act to boost the national economy by investing in infrastructure projects, small business grants, and workforce development programs.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Consumer Protection in Banking Act', 'An act to strengthen consumer protections in banking by capping interest rates on loans and increasing transparency for fees and charges.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Pension Plan Enhancement Act', 'An act to improve pension plan benefits for retired workers and ensure the long-term stability of national retirement funds.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Water Resource Management Act', 'An act to manage and protect the country’s water resources by setting standards for water quality and promoting conservation efforts.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Universal Basic Income Pilot Act', 'An act to establish a pilot program to test the effects of universal basic income on economic stability and poverty reduction.');
+
+INSERT INTO BillIntroduce2 (title, content)
+VALUES ('Digital Innovation and Technology Act', 'An act to support digital innovation by funding research and development in emerging technologies, such as AI and quantum computing.');
