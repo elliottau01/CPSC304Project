@@ -6356,3 +6356,66 @@ VALUES ('Heather McPherson', 'Standing Committee on Foreign Affairs and Internat
 INSERT INTO CommitteeMembership (mpName, committeeName)
 VALUES ('Michael Barrett', 'Standing Committee on Foreign Affairs and International Development');
 
+
+
+
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (101, 'Climate Change Action Act', 'Elizabeth May', TO_DATE('2024-03-15', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (102, 'Affordable Housing Act', 'Ahmed Hussen', TO_DATE('2024-04-10', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (103, 'National Health Strategy Act', 'Jean-Yves Duclos', TO_DATE('2024-05-22', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (104, 'Digital Privacy Protection Act', 'Charlie Angus', TO_DATE('2024-06-08', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (105, 'Clean Energy Promotion Act', 'Steven Guilbeault', TO_DATE('2024-07-14', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (106, 'Education Equality Act', 'Carla Qualtrough', TO_DATE('2024-08-30', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (107, 'Indigenous Rights Recognition Act', 'Marc Miller', TO_DATE('2024-09-12', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (108, 'Cybersecurity Enhancement Act', 'Randy Boissonnault', TO_DATE('2024-10-03', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (109, 'Small Business Support Act', 'Francesco Sorbara', TO_DATE('2024-11-01', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (110, 'Veterans Care Improvement Act', 'Lawrence MacAulay', TO_DATE('2024-11-15', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (111, 'Green Infrastructure Development Act', 'Jonathan Wilkinson', TO_DATE('2024-11-20', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (112, 'Mental Health Support Expansion Act', 'Carolyn Bennett', TO_DATE('2024-11-25', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (113, 'National Childcare Accessibility Act', 'Karina Gould', TO_DATE('2024-12-01', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (114, 'Transportation Safety Improvement Act', 'Omar Alghabra', TO_DATE('2024-12-07', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (115, 'Economic Recovery and Jobs Act', 'Chrystia Freeland', TO_DATE('2024-12-15', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (116, 'Consumer Protection in Banking Act', 'Francois-Philippe Champagne', TO_DATE('2025-01-10', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (117, 'Pension Plan Enhancement Act', 'Randy Boissonnault', TO_DATE('2025-01-18', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (118, 'Water Resource Management Act', 'Terry Beech', TO_DATE('2025-01-25', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (119, 'Universal Basic Income Pilot Act', 'Nathaniel Erskine-Smith', TO_DATE('2025-02-05', 'YYYY-MM-DD'));
+
+INSERT INTO BillIntroduce1 (billNumber, title, introducer, dateIntroduced)
+VALUES (120, 'Digital Innovation and Technology Act', 'François-Philippe Champagne', TO_DATE('2025-02-12', 'YYYY-MM-DD'));
