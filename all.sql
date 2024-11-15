@@ -6164,13 +6164,8 @@ INSERT INTO SenatorRecommendParliamentaryGroupMembership(senatorName, province, 
 
 
 INSERT INTO Affiliate(partyName, parliamentaryGroupName) VALUES('conservative', 'conservative');
-INSERT INTO Affiliate (partyName, parliamentaryGroupName)
-VALUES ('Liberal Party', 'Progressive Group');
-INSERT INTO Affiliate (partyName, parliamentaryGroupName)
-VALUES ('Conservative Party', 'Traditional Values Group');
-INSERT INTO Affiliate (partyName, parliamentaryGroupName)
-VALUES ('Green Party', 'Environmental Caucus');
-INSERT INTO Affiliate (partyName, parliamentaryGroupName)
-VALUES ('New Democratic Party', 'Labor Rights Group');
-INSERT INTO Affiliate (partyName, parliamentaryGroupName)
-VALUES ('Bloc Québécois', 'Quebec Nationalists');
+INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Liberal Party', 'Progressive Group');
+INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Conservative Party', 'Traditional Values Group');
+INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Green Party', 'Environmental Caucus');
+INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('New Democratic Party', 'Labor Rights Group');
+INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Bloc Québécois', 'Quebec Nationalists');
