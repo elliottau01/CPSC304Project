@@ -6250,3 +6250,37 @@ VALUES ('Subcommittee on Agenda and Procedure', 'Subcommittee');
 
 INSERT INTO Committee (committeeName, type)
 VALUES ('Joint Committee on the Library of Parliament', 'Joint');
+
+
+
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('John Smith', 'Standing Committee on Finance');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Jane Doe', 'Standing Committee on Health');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Emily Brown', 'Standing Committee on Justice and Human Rights');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Michael Johnson', 'Standing Committee on Environment and Sustainable Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Sarah Wilson', 'Standing Committee on Foreign Affairs and International Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('David Lee', 'Standing Committee on Indigenous and Northern Affairs');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Chris Martin', 'Standing Committee on National Defence');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Laura Scott', 'Standing Committee on Public Safety and National Security');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('James Anderson', 'Standing Committee on Transport, Infrastructure and Communities');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Olivia White', 'Standing Committee on the Status of Women');
+
