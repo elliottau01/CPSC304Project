@@ -6255,32 +6255,37 @@ VALUES ('Joint Committee on the Library of Parliament', 'Joint');
 
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('John Smith', 'Standing Committee on Finance');
+VALUES ('Francis Scarpaleggia', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Jane Doe', 'Standing Committee on Health');
+VALUES ('Dan Mazier', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Emily Brown', 'Standing Committee on Justice and Human Rights');
+VALUES ('Monique Pauzé', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Michael Johnson', 'Standing Committee on Environment and Sustainable Development');
+VALUES ('Shafqat Ali', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Sarah Wilson', 'Standing Committee on Foreign Affairs and International Development');
+VALUES ('Sophie Chatel', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('David Lee', 'Standing Committee on Indigenous and Northern Affairs');
+VALUES ('Laurel Collins', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Chris Martin', 'Standing Committee on National Defence');
+VALUES ('Gérard Deltell', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Laura Scott', 'Standing Committee on Public Safety and National Security');
+VALUES ('Michael Kram', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('James Anderson', 'Standing Committee on Transport, Infrastructure and Communities');
+VALUES ('Branden Leslie', 'Standing Committee on Environment and Sustainable Development');
 
 INSERT INTO CommitteeMembership (mpName, committeeName)
-VALUES ('Olivia White', 'Standing Committee on the Status of Women');
+VALUES ('Lloyd Longfield', 'Standing Committee on Environment and Sustainable Development');
 
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Leah Taylor Roy', 'Standing Committee on Environment and Sustainable Development');
+
+INSERT INTO CommitteeMembership (mpName, committeeName)
+VALUES ('Adam van Koeverden', 'Standing Committee on Environment and Sustainable Development');
