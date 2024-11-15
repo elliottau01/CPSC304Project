@@ -6169,3 +6169,84 @@ INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Conservative 
 INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Green Party', 'Environmental Caucus');
 INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('New Democratic Party', 'Labor Rights Group');
 INSERT INTO Affiliate (partyName, parliamentaryGroupName) VALUES ('Bloc Québécois', 'Quebec Nationalists');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Agriculture and Agri-Food', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Canadian Heritage', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Citizenship and Immigration', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Environment and Sustainable Development', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Finance', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Fisheries and Oceans', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Foreign Affairs and International Development', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Government Operations and Estimates', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Health', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Human Resources, Skills and Social Development and the Status of Persons with Disabilities', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Indigenous and Northern Affairs', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Industry and Technology', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on International Trade', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Justice and Human Rights', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on National Defence', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Natural Resources', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Official Languages', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Procedure and House Affairs', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Public Accounts', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Public Safety and National Security', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on the Status of Women', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Transport, Infrastructure and Communities', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Standing Committee on Veterans Affairs', 'Standing');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Special Committee on Canada-China Relations', 'Special');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Liaison Committee', 'Liaison');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Subcommittee on Agenda and Procedure', 'Subcommittee');
+
+INSERT INTO Committee (committeeName, type)
+VALUES ('Joint Committee on the Library of Parliament', 'Joint');
