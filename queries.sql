@@ -19,29 +19,18 @@ HAVING MAX(numSeatsInParliament) >= 12
 
 SELECT districtName, electionYear, MAX(VoteDifference) AS MaxVoteDifference
 FROM (
-	SELECT districtName, electionYear, MAX(VotesObtained) - MIN(VotesObtained) AS VoteDifference
+    SELECT districtName, electionYear, MAX(VotesObtained) - MIN(VotesObtained) AS VoteDifference
     FROM Elect
     GROUP BY districtName, electionYear
-) AS AggregatedVotes
+) AggregatedVotes
 GROUP BY districtName, electionYear;
+
 
 -- 2.1.10 Division
 -- Show the political parties having at least one candidate for all electoral districts in BC during the 2024 election.
 
--- SELECT partyName
--- FROM PoliticalParty P
--- WHERE NOT EXIST
--- 	((SELECT districtName
--- 	FROM ElectoralDistrict ED
--- 	WHERE province==”British Columbia”)
--- 	MINUS
--- 	(SELECT D.districtName
--- 	 FROM Elect E, CandidatePartyMembership CPM, ElectoralDistrict D
--- 	 WHERE E.districtName == D.districtName, E.candidateName == CPM.candidateName, P.partyName == CPM.partyName)
--- 	);
-
 SELECT partyName
-FROM PoliticalParty P
+FROM PoliticalParty1 P
 WHERE NOT EXISTS (
     (SELECT districtName
      FROM ElectoralDistrict ED
@@ -53,4 +42,7 @@ WHERE NOT EXISTS (
      JOIN ElectoralDistrict D ON E.districtName = D.districtName
      WHERE P.partyName = CPM.partyName)
 );
+
+
+
 
