@@ -12,7 +12,8 @@ GROUP BY M.partyName;
 SELECT partyName 
 FROM PoliticalParty1
 GROUP BY partyName
-HAVING MAX(numSeatsInParliament) >= 12
+HAVING MAX(numSeatsInParliament) >= 12;
+
 
 -- 2.1.9 Nested Aggregation with GROUP BY 
 -- Calculates the difference in votes between the candidate with the most votes and the candidate with the fewest votes for each district and election year.
