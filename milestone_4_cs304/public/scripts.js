@@ -47,7 +47,7 @@ async function fetchAndDisplayUsers() {
 
     const responseData = await response.json();
     const demotableContent = responseData.data;
-
+    console.log(demotableContent);
     // Always clear old, already fetched data before new fetching process.
     if (tableBody) {
         tableBody.innerHTML = '';
@@ -154,6 +154,132 @@ async function countDemotable() {
     }
 }
 
+function toggleDropdown(){
+  const dropdown = document.getElementById('myDropdown');
+  if (dropdown.style.display == 'block') {
+    dropdown.style.display = 'none';
+  } else {
+    dropdown.style.display = 'block';
+  }
+}
+
+async function insertCandidateParty(event){
+    event.preventDefault();
+
+    const _name = document.getElementById("nameInsert").value;
+    const _party = document.getElementById("partyInsert").value;
+
+    const response = await fetch('/insert-Candidate-Party', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: _name,
+            party: _party
+        })
+    });
+    
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        fetchTableData();
+    } else {
+        console.log("Error");
+    }
+}
+
+async function updateCandidateParty(event){
+    event.preventDefault();
+
+    const oldPartyVal = document.getElementById("OldName").value;
+    const newPartyVal = document.getElementById("NewName").value;
+
+    const response = await fetch('/update-party-demotable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            oldParty: oldPartyVal,
+            newParty: newPartyVal
+        })
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        fetchTableData();
+    } 
+    else {
+        console.log("Error");
+    }
+}
+
+async function deleteCandidateParty(event){
+    event.preventDefault();
+
+    const nameVal = document.getElementById("nameDelete").value;
+
+    const response = await fetch('/delete-party-demotable', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: nameVal
+        })
+    })
+
+    const responseData = await response.json();
+
+    if (responseData.success) {
+        fetchTableData();
+    } 
+    else {
+        console.log("Error");
+    }
+}
+function loadContent(contentId) {
+  const contentDiv = document.getElementById('content');
+
+  const contentMap = {
+    Insert: `<h2>Insert Query</h2>
+                <div class = "inputFields">
+                        <form id="Query">
+                        Name: <input type="text" id="nameInsert" placeholder="Enter Name" required> <br><br>
+                        Party: <input type="text" id="partyInsert" placeholder="Enter Party" required> <br><br>
+                        <button type="submit"> insert </button> <br>
+                    </form>
+                </div>`,
+    Update: `<h2>Update Query</h2>
+                <div class = "inputFields">
+                        <form id="Query">
+                        Old Party: <input type="text" id="OldName" placeholder="Enter Name" required> <br><br>
+                        New Party: <input type="text" id="NewName" placeholder="Enter Party" required> <br><br>
+                        <button type="submit"> insert </button> <br>
+                    </form>
+                </div>`,
+    Delete: `<h2>Delete Query</h2>
+                <div class = "inputFields">
+                        <form id="Query">
+                        Name: <input type="text" id="nameDelete" placeholder="Enter Name" required> <br><br>
+                        <button type="submit"> insert </button> <br>
+                    </form>
+                </div>`
+  };
+  contentDiv.innerHTML = contentMap[contentId];
+  if(contentId == "Insert"){
+    document.getElementById("Query").addEventListener("submit", insertCandidateParty);
+  }
+  else if(contentId == "Update"){
+    document.getElementById("Query").addEventListener("submit", updateCandidateParty);
+  }
+  else if(contentId == "Delete"){
+    document.getElementById("Query").addEventListener("submit", deleteCandidateParty);
+  }
+  document.getElementById('myDropdown').style.display = 'none';
+}
 
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
@@ -161,10 +287,8 @@ async function countDemotable() {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
+    document.getElementById("dropbtn").addEventListener("click", toggleDropdown);
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
 // General function to refresh the displayed table data. 

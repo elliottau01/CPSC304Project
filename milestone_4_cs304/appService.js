@@ -1,22 +1,23 @@
 const oracledb = require('oracledb');
-const loadEnvFile = require('./utils/envUtil');
+require('dotenv').config();
 
-const envVariables = loadEnvFile('./.env');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
-    user: envVariables.ORACLE_USER,
-    password: envVariables.ORACLE_PASS,
-    connectString: `${envVariables.ORACLE_HOST}:${envVariables.ORACLE_PORT}/${envVariables.ORACLE_DBNAME}`,
+    user: process.env.ORACLE_USER,
+    password: process.env.ORACLE_PASS,
+    connectString: `${process.env.ORACLE_HOST}:${process.env.ORACLE_PORT}/${process.env.ORACLE_DBNAME}`,
     poolMin: 1,
     poolMax: 3,
     poolIncrement: 1,
     poolTimeout: 60
 };
 
+
 // initialize connection pool
 async function initializeConnectionPool() {
     try {
+        oracledb.initOracleClient({ libDir: process.env.ORACLE_DIR })
         await oracledb.createPool(dbConfig);
         console.log('Connection pool started');
     } catch (err) {
@@ -95,8 +96,8 @@ async function initiateDemotable() {
 
         const result = await connection.execute(`
             CREATE TABLE DEMOTABLE (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
+                name VARCHAR2(20) PRIMARY KEY,
+                party VARCHAR2(20)
             )
         `);
         return true;
@@ -105,11 +106,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name) {
+async function insertDemotable(name, party) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
-            [id, name],
+            `INSERT INTO DEMOTABLE (name, party) VALUES (:name, :party)`,
+            [name, party],
             { autoCommit: true }
         );
 
@@ -119,11 +120,11 @@ async function insertDemotable(id, name) {
     });
 }
 
-async function updateNameDemotable(oldName, newName) {
+async function updateNameDemotable(oldParty, newParty) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
-            [newName, oldName],
+            `UPDATE DEMOTABLE SET party=:newName where party=:oldName`,
+            [newParty, oldParty],
             { autoCommit: true }
         );
 
@@ -133,14 +134,25 @@ async function updateNameDemotable(oldName, newName) {
     });
 }
 
-async function countDemotable() {
+async function deleteFromDemotable(name){
+    return await withOracleDB(async(connection) => {
+        const result = await connection.execute(
+            `DELETE FROM DEMOTABLE WHERE name = :name`, 
+            [name],
+            {autoCommit: true}
+        );
+        return result.rowsAffected && result.rowsAffected > 0;
+    })
+}
+
+/*async function countDemotable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
         return result.rows[0][0];
     }).catch(() => {
         return -1;
     });
-}
+}*/
 
 module.exports = {
     testOracleConnection,
@@ -148,5 +160,6 @@ module.exports = {
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable
+    countDemotable,
+    deleteFromDemotable
 };

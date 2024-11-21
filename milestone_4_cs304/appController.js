@@ -56,7 +56,8 @@ router.get('/count-demotable', async (req, res) => {
             success: true,  
             count: tableCount
         });
-    } else {
+    } 
+    else {
         res.status(500).json({ 
             success: false, 
             count: tableCount
@@ -64,5 +65,37 @@ router.get('/count-demotable', async (req, res) => {
     }
 });
 
+router.post("/insert-Candidate-Party", async (request, response) => {
+    const {name, party} = request.body;
+    const insertResult = await appService.insertDemotable(name, party);
+   if(insertResult){
+        response.json({success: true});
+    }
+    else{
+        response.status(500).json({success: false});
+    }
+})
+
+router.post("/update-party-demotable", async (request, response) => {
+    const { oldParty, newParty } = request.body;
+    const updateResult = await appService.updateNameDemotable(oldParty, newParty);
+    if (updateResult) {
+        response.json({ success: true });
+    } 
+    else {
+        response.status(500).json({ success: false });
+    }
+});
+
+router.post("/delete-party-demotable", async(request, response) => {
+    const {name} = request.body;
+    const deleteResult = await appService.deleteFromDemotable(name);
+    if(deleteResult){
+        response.json({success:true});
+    }
+    else{
+        response.status(500).json({success: false})
+    }
+})
 
 module.exports = router;
