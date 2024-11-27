@@ -39,9 +39,10 @@ router.post("/insert-demotable", async (req, res) => {
     }
 });
 
-router.post("/update-name-demotable", async (req, res) => {
-    const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameDemotable(oldName, newName);
+router.post("/update-party-demotable", async (req, res) => {
+    const { name, newParty } = req.body;
+    console.log(req.body);
+    const updateResult = await appService.updateNameDemotable(name, newParty);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -76,17 +77,6 @@ router.post("/insert-Candidate-Party", async (request, response) => {
     }
 })
 
-router.post("/update-party-demotable", async (request, response) => {
-    const { oldParty, newParty } = request.body;
-    const updateResult = await appService.updateNameDemotable(oldParty, newParty);
-    if (updateResult) {
-        response.json({ success: true });
-    } 
-    else {
-        response.status(500).json({ success: false });
-    }
-});
-
 router.post("/delete-party-demotable", async(request, response) => {
     const {name} = request.body;
     const deleteResult = await appService.deleteFromDemotable(name);
@@ -98,4 +88,45 @@ router.post("/delete-party-demotable", async(request, response) => {
     }
 })
 
+router.post("/initializeDB", async (request, response) => {
+    const result = await appService.initializeDB();
+    if(result){
+        response.json({success:true});
+    }
+    else{
+        response.status(500).json({success: false})
+    }
+})
+
+router.post("/projection", async (request, response) => {
+    const {query} = request.body;
+    const result = await appService.projectDB(query);
+    response.json = ({data: result});
+})
+
+router.post("/join", async (request,  response) => {
+    const {name} = request.body;
+    const result = await appService.joinDB(name);
+    response.json = ({data: result});
+})
+
+router.get("/groupBy", async (request, response) => {
+    const result = await appService.groupByDB();
+    response.json = ({data: result});
+})
+
+router.get("/having", async (request, response) => {
+    const result = await appService.havingDB();
+    response.json = ({data: result});
+})
+
+router.get("/nestedGroupBy", async (request, response) => {
+    const result = await appService.nestedGroupByDB();
+    response.json = ({data: result});
+})
+
+router.get("/division", async (request, response) => {
+    const result = await appService.divisionDB();
+    response.json = ({data: result});
+})
 module.exports = router;

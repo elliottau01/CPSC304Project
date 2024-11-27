@@ -23,29 +23,22 @@
     </h1>
 
     <br><hr><br> <!-- ========================================================================= -->
-    <div class="centering">
     <!-- Show 'Demotable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
     <h2>Show Demotable</h2>
-    <table id="demotable" class="box" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>Name</th>
-                <th>Party</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2>Reset Demotable</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
-    <button id="resetDemotable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
+    <div id = "tablesc">
+        <table id="demotable" class="box" border="1">
+            <thead>
+                <tr>
+                    <!--Table head, need to be adjusted accordingly to align with your own.-->
+                    <th>Name</th>
+                    <th>Party</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
     <br><hr><br> <!-- ========================================================================= -->
     <div class="dropdown" class="box">
@@ -54,11 +47,40 @@
             <a onclick="loadContent('Insert')">Insert</a>
             <a onclick="loadContent('Update')">Update</a>
             <a onclick="loadContent('Delete')">Delete</a>
+            <a onclick="loadContent('Projection')">Projection</a>
+            <a onclick="loadContent('Join')">Join</a>
         </div>
     </div>
     <div id="content">
     </div>
-</div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+    <h2>Reset Demotable</h2>
+    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
+    <button id="resetDemotable"> reset </button> <br>
+    <!-- A placeholder to display messages related to the reset operation. -->
+    <div id="resetResultMsg"></div>
+    <button id="initTable">
+        Initialize Table
+    </button>
+    <div id="initResultMsg">
+
+    </div>
+    <br><hr><br> <!-- ========================================================================= -->
+    <h2>Queries</h2>
+    <button id="Group By">
+        Group By
+    </button>
+    <button id="Having">
+        Having
+    </button>
+    <button id="Nested Group By">
+        Nested Group By
+    </button>
+    <button id="Division">
+        Division
+    </button>
+    
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>

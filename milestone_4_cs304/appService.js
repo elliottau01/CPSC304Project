@@ -1,6 +1,7 @@
 const oracledb = require('oracledb');
 require('dotenv').config();
-
+const fs = require('fs');
+const { connect } = require('http2');
 
 // Database configuration setup. Ensure your .env file has the required database credentials.
 const dbConfig = {
@@ -8,7 +9,7 @@ const dbConfig = {
     password: process.env.ORACLE_PASS,
     connectString: `${process.env.ORACLE_HOST}:${process.env.ORACLE_PORT}/${process.env.ORACLE_DBNAME}`,
     poolMin: 1,
-    poolMax: 3,
+    poolMax: 10,
     poolIncrement: 1,
     poolTimeout: 60
 };
@@ -79,9 +80,9 @@ async function testOracleConnection() {
 
 async function fetchDemotableFromDb() {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute(`SELECT * FROM CandidatePartyMembership`);
         return result.rows;
-    }).catch(() => {
+    }).catch((err) => {
         return [];
     });
 }
@@ -109,7 +110,7 @@ async function initiateDemotable() {
 async function insertDemotable(name, party) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (name, party) VALUES (:name, :party)`,
+            `INSERT INTO CandidatePartyMembership (candidateName, partyName) VALUES (:name, :party)`,
             [name, party],
             { autoCommit: true }
         );
@@ -120,11 +121,11 @@ async function insertDemotable(name, party) {
     });
 }
 
-async function updateNameDemotable(oldParty, newParty) {
+async function updateNameDemotable(name, newParty) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET party=:newName where party=:oldName`,
-            [newParty, oldParty],
+            `UPDATE CandidatePartyMembership SET partyName=:newParty where candidateName=:name`,
+            [newParty, name],
             { autoCommit: true }
         );
 
@@ -137,7 +138,7 @@ async function updateNameDemotable(oldParty, newParty) {
 async function deleteFromDemotable(name){
     return await withOracleDB(async(connection) => {
         const result = await connection.execute(
-            `DELETE FROM DEMOTABLE WHERE name = :name`, 
+            `DELETE FROM CandidatePartyMembership WHERE candidateName = :name`, 
             [name],
             {autoCommit: true}
         );
@@ -145,15 +146,117 @@ async function deleteFromDemotable(name){
     })
 }
 
-/*async function countDemotable() {
+async function countDemotable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
         return result.rows[0][0];
     }).catch(() => {
         return -1;
     });
-}*/
+}
 
+async function initializeDB(){
+    const file = fs.readFileSync(`./all.sql`, 'utf-8')
+    const commands = file.split(';').map(cmd => 
+                cmd.trim()).filter(cmd => cmd);
+    return await withOracleDB(async (connection) => {
+        for (let command of commands){
+            try{
+                await connection.execute(command);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        try {
+            await connection.commit(); 
+        } catch (commitErr) {
+            console.error('Error committing transaction:', commitErr);
+        }
+    })
+}
+async function projectDB(query){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`SELECT ${query} FROM SenatorRecommendParliamentaryGroupMembership`);
+        return result.rows;
+    })
+}
+async function joinDB(name){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            SELECT 
+                b.title AS billTitle, 
+                mv.mpName AS mpVoter, 
+                mv.vote
+            FROM 
+                BillIntroduce1 b
+            JOIN 
+                MPVote mv
+            ON 
+                b.billNumber = mv.billNumber
+            WHERE 
+                b.introducer = '${name}'`);
+        console.log(result.rows);
+        return result.rows;
+    })
+}
+
+async function groupByDB(){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            SELECT M.partyName, COUNT(*) AS numWinners
+            FROM CandidatePartyMembership M
+            JOIN ElectionWin W ON M.candidateName = W.winner
+            GROUP BY M.partyName`);
+        return result.rows;
+    })
+}
+
+async function havingDB(){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            SELECT partyName 
+            FROM PoliticalParty1    
+            GROUP BY partyName
+            HAVING MAX(numSeatsInParliament) >= 12`);
+        return result.rows;
+    })
+}
+
+async function nestedGroupByDB(){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            SELECT districtName, electionYear, MAX(VoteDifference) AS MaxVoteDifference
+            FROM (
+                SELECT districtName, electionYear, MAX(VotesObtained) - MIN(VotesObtained) AS VoteDifference
+                FROM Elect
+                GROUP BY districtName, electionYear
+            ) AggregatedVotes
+            GROUP BY districtName, electionYear`);
+        return result.rows;
+    })
+}
+
+async function divisionDB(){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(`
+            SELECT partyName
+            FROM PoliticalParty1 P
+            WHERE NOT EXISTS (
+                (SELECT districtName
+                FROM ElectoralDistrict ED
+                WHERE province = 'British Columbia')
+                MINUS
+                (SELECT D.districtName
+                FROM Elect E
+                JOIN CandidatePartyMembership CPM ON E.candidateName = CPM.candidateName
+                JOIN ElectoralDistrict D ON E.districtName = D.districtName
+                WHERE P.partyName = CPM.partyName)
+            )
+`);
+        return result.rows;
+    })
+}
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
@@ -161,5 +264,12 @@ module.exports = {
     insertDemotable, 
     updateNameDemotable, 
     countDemotable,
+    initializeDB,
+    projectDB,
+    joinDB,
+    groupByDB,
+    havingDB,
+    nestedGroupByDB,
+    divisionDB,
     deleteFromDemotable
 };
