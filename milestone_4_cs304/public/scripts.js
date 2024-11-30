@@ -132,11 +132,6 @@ async function insertCandidateParty(event){
 
     const genderVal = document.getElementById("genderDiv").innerHTML;
 
-    if(genderVal == ""){
-        alert("Error: No Gender Selected");
-        return;
-    }
-
     const response = await fetch('/insert-Candidate-Party', {
         method: 'POST',
         headers: {
@@ -173,11 +168,6 @@ async function updateCandidateParty(event){
     const oldPartyVal = document.getElementById("updateName").value;
     const newPartyVal = document.getElementById("updateParty").value;
     const newGenderVal = document.getElementById("genderDiv").innerHTML;
-
-    if(newGenderVal == ""){
-        alert("Error: No Gender Selected");
-        return;
-    }
 
     const response = await fetch('/update-party-demotable', {
         method: 'POST',
@@ -229,6 +219,10 @@ async function deleteCandidateParty(event){
 async function projection(event){
     event.preventDefault();
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    if(checkboxes.length == 0){
+        alert("Error: Check at least one box");
+        return;
+    }
     const selected = Array.from(checkboxes).map(box => box.value);
     const queryInput = selected.join(', ');
     const response = await fetch('/projection', {
@@ -333,31 +327,6 @@ async function join(event){
     });
 }
 
-async function and() {
-    const form = document.getElementById("Query");
-
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-        And: <input type="text" class="andsign" placeholder="Enter >, <, or = and then a number" required> <br><br>
-    `;
-
-    form.appendChild(container);
-}
-
-async function or() {
-    const form = document.getElementById("Query");
-
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-        Or: <input type="text" class="orsign" placeholder="Enter >, <, or = and then a number" required> <br><br>
-    `;
-
-    form.appendChild(container);
-}
-
-
 function Province(prov){
     document.getElementById("Province").innerHTML = prov;
 }
@@ -385,14 +354,18 @@ async function selection(event){
         if(input.name == "sign"){
             if(input.value.replace(/ /g,'') != "<" && input.value.replace(/ /g,'') != ">" && input.value.replace(/ /g,'') != "="){
                 alert("Error, one of the signs is invalid");
+                return;
             }
+        }
+        if(input.value.includes(`"`)){
+            alert("Error");
         }
     })
 
     const andValsArr = Array.from(andOrVals);
     const inputsArr = Array.from(inputs);
 
-    let query = "SELECT districtName FROM ElectoralDistrict WHERE ";
+    let query = "SELECT * FROM ElectoralDistrict WHERE ";
     console.log(inputsArr);
     while(inputsArr.length > 0){
         let curr = inputsArr.shift();
@@ -402,9 +375,13 @@ async function selection(event){
             let value = inputsArr.shift().value;
             query = query + "electorPopulation " + curr + " " + value + " ";
         }
-        else{
+        else if(curr.name == "province"){
             curr = curr.value;
-            query = query + curr + " ";
+            query = query + "province = " + `'${curr}'` + " ";
+        }
+        else if(curr.name == "district"){
+            curr = curr.value;
+            query = query + "districtName = " + `'${curr}'` + " ";
         }
         if(andValsArr.length > 0){
             let andOrVal = andValsArr.shift();
@@ -412,7 +389,7 @@ async function selection(event){
             query = query + andOrVal + " ";
         }
     }
-    
+    console.log(query);
     const response = await fetch('/select', {
         method: 'POST',
         headers: {
@@ -436,6 +413,14 @@ async function selection(event){
     const newHeader1 = document.createElement("th"); 
     newHeader1.textContent = "Name"; 
     tableHead.appendChild(newHeader1);
+
+    const newHeader2 = document.createElement("th"); 
+    newHeader2.textContent = "Province"; 
+    tableHead.appendChild(newHeader2);
+
+    const newHeader3 = document.createElement("th"); 
+    newHeader3.textContent = "Population"; 
+    tableHead.appendChild(newHeader3);
 
     responseData.data.forEach(user => {
         const row = tableBody.insertRow();
