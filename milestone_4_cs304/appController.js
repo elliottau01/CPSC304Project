@@ -171,4 +171,11 @@ router.get("/division", async (request, response) => {
         response.status(500).json({err: result});
     }
 })
+
+router.post("/select", async (request, response) => {
+    const {query} = request.body;
+    const result = await appService.selectionDB(query);
+    console.log(result);
+    response.json({data: result});
+})
 module.exports = router;

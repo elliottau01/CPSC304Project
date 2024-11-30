@@ -312,6 +312,13 @@ async function resetDB(){
         return err;
     });
 }
+
+async function selectionDB(query){
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(query);
+        return result.rows;
+    });
+}
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
@@ -326,5 +333,6 @@ module.exports = {
     nestedGroupByDB,
     divisionDB,
     resetDB,
+    selectionDB,
     deleteFromDemotable
 };

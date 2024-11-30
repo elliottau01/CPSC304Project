@@ -11,7 +11,7 @@
  *   HTML structure.
  * 
  */
-
+let firstFieldFlag = true;
 
 // This function checks the database connection and updates its status on the frontend.
 async function checkDbConnection() {
@@ -357,24 +357,157 @@ async function or() {
     form.appendChild(container);
 }
 
-async function selection(event){
-    event.preventDefault();
-
-    const andVals = document.querySelectorAll('.andsign')
-    const orVals = document.querySelectorAll('.orsign')
-
-    let query = "";
-
-
-}
 
 function Province(prov){
     document.getElementById("Province").innerHTML = prov;
 }
 
-function gender(g){
+function gender(inputGender){
     
-    document.getElementById("genderDiv").innerHTML = g;
+    document.getElementById("genderDiv").innerHTML = inputGender;
+}
+
+async function selection(event){
+    event.preventDefault();
+
+    const andOrVals = document.querySelectorAll('.andOr');
+    const inputs = document.querySelectorAll('.inputs');
+
+    andOrVals.forEach((andOr) => {
+        if(andOr.value.replace(/ /g,'') != "and" && andOr.value.replace(/ /g,'') != "or"){
+            console.log(andOr.value);
+            alert("Error, one of the and/or inputs is not and/or");
+            return;
+        }
+    });
+    
+    inputs.forEach((input) => {
+        if(input.name == "sign"){
+            if(input.value.replace(/ /g,'') != "<" && input.value.replace(/ /g,'') != ">" && input.value.replace(/ /g,'') != "="){
+                alert("Error, one of the signs is invalid");
+            }
+        }
+    })
+
+    const andValsArr = Array.from(andOrVals);
+    const inputsArr = Array.from(inputs);
+
+    let query = "SELECT districtName FROM ElectoralDistrict WHERE ";
+    console.log(inputsArr);
+    while(inputsArr.length > 0){
+        let curr = inputsArr.shift();
+        console.log(curr);
+        if(curr.name == "sign"){
+            curr = curr.value;
+            let value = inputsArr.shift().value;
+            query = query + "electorPopulation " + curr + " " + value + " ";
+        }
+        else{
+            curr = curr.value;
+            query = query + curr + " ";
+        }
+        if(andValsArr.length > 0){
+            let andOrVal = andValsArr.shift();
+            andOrVal = andOrVal.value;
+            query = query + andOrVal + " ";
+        }
+    }
+    
+    const response = await fetch('/select', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            query: query
+        })
+    })
+
+    const responseData = await response.json();
+
+    console.log(responseData);
+
+    const tableHead = document.querySelector("#selecTable thead tr");
+    const tableBody = document.querySelector("#selecTable tbody");
+
+    tableHead.innerHTML = "";
+    tableBody.innerHTML = "";
+
+    const newHeader1 = document.createElement("th"); 
+    newHeader1.textContent = "Name"; 
+    tableHead.appendChild(newHeader1);
+
+    responseData.data.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+
+}
+
+function selectDDOption(option){
+
+    if(option == "District"){
+        const form = document.getElementById("Query");
+        
+        const container = document.createElement("div");
+        if(firstFieldFlag == false){
+            container.innerHTML = `
+            And/Or: <input type="text" class="andOr" placeholder="Enter and or enter or" required> <br><br>
+            District: <input type="text" class="inputs" placeholder="Enter the district name" name="district" required> <br><br>
+        `;
+        }
+        else{
+            firstFieldFlag = false;
+            container.innerHTML = `
+                District: <input type="text" class="inputs" placeholder="Enter the district name" name="district" required> <br><br>
+            `;
+        }
+
+        form.appendChild(container);
+    }
+    else if(option == "Province"){
+        const form = document.getElementById("Query");
+
+        const container = document.createElement("div");
+        if(firstFieldFlag == false){
+            container.innerHTML = `
+            And/Or: <input type="text" class="andOr" placeholder="Enter and or enter or" required> <br><br>
+            Province: <input type="text" class="inputs" placeholder="Enter the province name" name="province" required> <br><br>
+        `;
+        }
+        else{
+            firstFieldFlag = false;
+            container.innerHTML = `
+            Province: <input type="text" class="inputs" placeholder="Enter the province name" name="province" required> <br><br>
+        `;
+        }
+
+        form.appendChild(container);
+    }
+    else{
+        const form = document.getElementById("Query");
+
+        const container = document.createElement("div");
+
+        if(firstFieldFlag == false){
+            container.innerHTML = `
+            And/Or: <input type="text" class="andOr" placeholder="Enter and or enter or" required> <br><br>
+            Operator: <input type="text" class="inputs" placeholder="Enter >, < or =" name="sign" required> <br><br>
+            Value: <input type="number" class="inputs" placeholder="Enter the value" name="num" required> <br><br>
+        `;
+        }
+        else{
+            firstFieldFlag = false;
+            container.innerHTML = `
+            Operator: <input type="text" class="inputs" placeholder="Enter >, < or =" name="sign" required> <br><br>
+            Value: <input type="number" class="inputs" placeholder="Enter the value" name="num" required> <br><br>
+        `;
+        }
+        form.appendChild(container);
+    }
 }
 
 function loadContent(contentId) {
@@ -387,7 +520,7 @@ function loadContent(contentId) {
                         Name: <input type="text" id="nameInsert" placeholder="Enter Name" required> <br><br>
                         Party: <input type="text" id="partyInsert" placeholder="Enter Party" required> <br><br>
                         New Gender: <div class="dropdown" class="box">
-                    <button type = "button" id="genderbtn">Dropdown</button>
+                    <button type = "button" id="genderbtn">Select Gender</button>
                     <div id="genderDD" class="dropdown-content">
                         <a onclick="gender('Male')">Male</a>
                         <a onclick="gender('Female')">Female</a>
@@ -405,7 +538,7 @@ function loadContent(contentId) {
                         Name: <input type="text" id="updateName" placeholder="Enter Name" required> <br><br>
                         New Party: <input type="text" id="updateParty" placeholder="Enter Party"> <br><br>
                 New Gender: <div class="dropdown" class="box">
-                    <button type = "button" id="genderbtn">Dropdown</button>
+                    <button type = "button" id="genderbtn">Select Gender</button>
                     <div id="genderDD" class="dropdown-content">
                         <a onclick="gender('Male')">Male</a>
                         <a onclick="gender('Female')">Female</a>
@@ -424,40 +557,29 @@ function loadContent(contentId) {
                         <button type="submit"> Delete </button> <br>
                     </form>
                 </div>`,
-    Selection: `<h2>Selection Query</h2>
+    Selection: `<h2>Districts</h2>
                     <div class="dropdown" class="box">
-                        <button id="selecbtn">Dropdown</button>
+                        <button id="selecbtn">Select Option...</button>
                         <div id="selecDD" class="dropdown-content">
-                            <a onclick="loadContent('And')">And</a>
-                            <a onclick="loadContent('Or')">Or</a>
+                            <a onclick="selectDDOption('District')">District</a>
+                            <a onclick="selectDDOption('Province')">Province</a>
+                            <a onclick="selectDDOption('Population')">Population</a>
                         </div>
                     </div>
-                    <div class = "inputFields">
+                    <div class="inputFields">
                     <form id="Query">
-                        <div class="dropdown" class="box">
-                        <button id="Prov">Dropdown</button>
-                        <div id="pDD" class="dropdown-content">
-                            <a onclick="Province('Any')">Any</a>
-                            <a onclick="Province('British Columbia')">BC</a>
-                            <a onclick="Province('Alberta')">Alberta</a>
-                            <a onclick="Province('Saskatchewan')">Saskatchewan</a>
-                            <a onclick="Province('Manitoba')">Manitoba</a>
-                            <a onclick="Province('Ontario')">Ontario</a>
-                            <a onclick="Province('Quebec')">Quebec</a>
-                            <a onclick="Province('Newfoundland and Labrador')">Newfoundland and Labrador</a>
-                            <a onclick="Province('Prince Edward Island')">Prince Edward Island</a>
-                            <a onclick="Province('Nova Scotia')">Nova Scotia</a>
-                            <a onclick="Province('New Brunswick')">New Brunswick</a>
-                            <a onclick="Province('Yukon')">Yukon</a>
-                            <a onclick="Province('Nunavut')">Nunavut</a>
-                            <a onclick="Province('Northwest Territories')">Northwest Territories</a>
-                        </div>
-                    <div id="Province">
-                    </div>
-                    </div>
                         <button type="submit"> Submit </button> <br>
                     </form>
-                    </div>`,
+                    </div>
+                    <table id="selecTable" class="box" border="1">
+                        <thead>
+                            <tr>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>`,
     Projection: `<h2>Find Senator Information</h2>
                     <div class="inputFields">
                         <form id="Query">
@@ -580,7 +702,7 @@ function loadContent(contentId) {
   else if(contentId == "Selection"){
     document.getElementById("Query").addEventListener("submit", selection);
     document.getElementById("selecbtn").addEventListener("click", toggleDropdown2);
-    document.getElementById("Prov").addEventListener("click", toggleDropdown3);
+    firstFieldFlag = true;
   }
   else if(contentId == "And"){
     and();
@@ -588,7 +710,9 @@ function loadContent(contentId) {
   else if(contentId == "Or"){
     or();
   }
-  document.getElementById("genderDiv").innerHTML = "";
+  if(document.getElementById("genderDiv")){
+    document.getElementById("genderDiv").innerHTML = "";
+  }
   document.getElementById('myDropdown').style.display = 'none';
 }
 
@@ -676,7 +800,7 @@ async function nestedGroupBy(event){
     newHeader2.textContent = "Year"; 
     tableHead.appendChild(newHeader2);
     const newHeader3 = document.createElement("th");
-    newHeader2.textContent = "Vote Difference"; 
+    newHeader3.textContent = "Vote Difference"; 
     tableHead.appendChild(newHeader3);
     
     responseData.data.forEach(user => {
@@ -719,9 +843,6 @@ async function division(event){
 
 
 
-async function selection(event){
-    event.preventDefault();
-}
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
