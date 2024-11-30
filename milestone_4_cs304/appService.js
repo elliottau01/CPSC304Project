@@ -317,6 +317,8 @@ async function selectionDB(query){
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(query);
         return result.rows;
+    }).catch((err) => {
+        return err;
     });
 }
 module.exports = {
