@@ -187,3 +187,14 @@ tr {
   table-layout: fixed; 
   width: 100%;
 }
+
+.buttonQuery {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+  gap: 10px; 
+}
+
+.buttonQuery button {
+  width: 400px;
+}

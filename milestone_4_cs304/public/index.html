@@ -25,7 +25,7 @@
     <br><hr><br> <!-- ========================================================================= -->
     <!-- Show 'Demotable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Demotable</h2>
+    <h2>Politician Directory</h2>
     <div id = "tablesc">
         <table id="demotable" class="box" border="1">
             <thead>
@@ -33,6 +33,7 @@
                     <!--Table head, need to be adjusted accordingly to align with your own.-->
                     <th>Name</th>
                     <th>Party</th>
+                    <th>Gender</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +42,17 @@
     </div>
 
     <br><hr><br> <!-- ========================================================================= -->
+    <h2>Politician Data Management</h2>
+
     <div class="dropdown" class="box">
         <button id="dropbtn">Dropdown</button>
         <div id="myDropdown" class="dropdown-content">
-            <a onclick="loadContent('Insert')">Insert</a>
-            <a onclick="loadContent('Update')">Update</a>
-            <a onclick="loadContent('Delete')">Delete</a>
-            <a onclick="loadContent('Projection')">Projection</a>
-            <a onclick="loadContent('Join')">Join</a>
+            <a onclick="loadContent('Insert')">Insert :Add a candidate information</a>
+            <a onclick="loadContent('Update')">Update: Update a candidate's information</a>
+            <a onclick="loadContent('Delete')">Delete: Delete a candidate</a>
+            <a onclick="loadContent('Selection')">Selection:</a>
+            <a onclick="loadContent('Projection')">Projection: Find senator information</a>
+            <a onclick="loadContent('Join')">Join: Find information about a Party and all its candidates</a>
         </div>
     </div>
     <div id="content">
@@ -67,19 +71,34 @@
 
     </div>
     <br><hr><br> <!-- ========================================================================= -->
-    <h2>Queries</h2>
-    <button id="Group By">
-        Group By
-    </button>
-    <button id="Having">
-        Having
-    </button>
-    <button id="Nested Group By">
-        Nested Group By
-    </button>
-    <button id="Division">
-        Division
-    </button>
+    <h2>Quick Access</h2>
+    <div class="buttonQuery">
+        <button id="Group By">
+            Aggregation with GROUP BY
+        </button>
+        Count the number of winning candidates grouped by party
+        <button id="Having">
+            Aggregation with HAVING
+        </button>
+        Show the party that has official status (having 12 seats or above)
+        <button id="Nested Group By">
+            Nested Aggregation with GROUP BY
+        </button>
+        Calculates the difference in votes between the candidate with the most votes and the candidate with the fewest votes for each district and election year
+        <button id="Division">
+            Division
+        </button>
+        Show the political parties having at least one candidate for all electoral districts in BC during the 2024 election
+    </div>
+    <table id="queryTable" class="box" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
     
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->

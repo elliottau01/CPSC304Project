@@ -40,9 +40,9 @@ router.post("/insert-demotable", async (req, res) => {
 });
 
 router.post("/update-party-demotable", async (req, res) => {
-    const { name, newParty } = req.body;
+    const { name, newParty, newGender } = req.body;
     console.log(req.body);
-    const updateResult = await appService.updateNameDemotable(name, newParty);
+    const updateResult = await appService.updateNameDemotable(name, newParty, newGender);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -67,66 +67,108 @@ router.get('/count-demotable', async (req, res) => {
 });
 
 router.post("/insert-Candidate-Party", async (request, response) => {
-    const {name, party} = request.body;
-    const insertResult = await appService.insertDemotable(name, party);
-   if(insertResult){
+    const {name, party, gender} = request.body;
+    const insertResult = await appService.insertDemotable(name, party, gender);
+    console.log(insertResult);
+   if(insertResult == true){
         response.json({success: true});
     }
     else{
-        response.status(500).json({success: false});
+        response.status(500).json({err: insertResult});
     }
 })
 
 router.post("/delete-party-demotable", async(request, response) => {
     const {name} = request.body;
     const deleteResult = await appService.deleteFromDemotable(name);
-    if(deleteResult){
+    if(!(deleteResult instanceof Error)){
         response.json({success:true});
     }
     else{
-        response.status(500).json({success: false})
+        response.status(500).json({err: deleteResult});
     }
 })
 
 router.post("/initializeDB", async (request, response) => {
     const result = await appService.initializeDB();
-    if(result){
+    if(!(result instanceof Error)){
         response.json({success:true});
     }
     else{
-        response.status(500).json({success: false})
+        response.status(500).json({err: result});
     }
 })
 
 router.post("/projection", async (request, response) => {
     const {query} = request.body;
     const result = await appService.projectDB(query);
-    response.json = ({data: result});
+    if(!(result instanceof Error)){
+    response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 
 router.post("/join", async (request,  response) => {
     const {name} = request.body;
     const result = await appService.joinDB(name);
-    response.json = ({data: result});
+    if(!(result instanceof Error)){
+        response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
+})
+
+router.post("/reset", async (request, response) => {
+    const result = await appService.resetDB();
+    if(!(result instanceof Error)){
+        response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 
 router.get("/groupBy", async (request, response) => {
     const result = await appService.groupByDB();
-    response.json = ({data: result});
+    console.log(result);
+    if(!(result instanceof Error)){
+        response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 
 router.get("/having", async (request, response) => {
     const result = await appService.havingDB();
-    response.json = ({data: result});
+    if(!(result instanceof Error)){
+        response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 
 router.get("/nestedGroupBy", async (request, response) => {
     const result = await appService.nestedGroupByDB();
-    response.json = ({data: result});
+    if(!(result instanceof Error)){
+        response.json({data: result});
+        }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 
 router.get("/division", async (request, response) => {
     const result = await appService.divisionDB();
-    response.json = ({data: result});
+    if(!(result instanceof Error)){
+        response.json({data: result});
+    }
+    else{
+        response.status(500).json({err: result});
+    }
 })
 module.exports = router;

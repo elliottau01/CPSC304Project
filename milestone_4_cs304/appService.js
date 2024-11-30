@@ -107,31 +107,52 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(name, party) {
+async function insertDemotable(name, party, gender) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO CandidatePartyMembership (candidateName, partyName) VALUES (:name, :party)`,
-            [name, party],
+            `INSERT INTO CandidatePartyMembership (candidateName, partyName, sex) VALUES (:name, :party, :gender)`,
+            [name, party, gender],
             { autoCommit: true }
         );
 
         return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
+    }).catch((err) => {
+        return err;
     });
 }
 
-async function updateNameDemotable(name, newParty) {
+async function updateNameDemotable(name, newParty, newGender) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE CandidatePartyMembership SET partyName=:newParty where candidateName=:name`,
-            [newParty, name],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
+        let result;
+        if(newGender == null){
+            result = await connection.execute(
+                `UPDATE CandidatePartyMembership SET partyName=:newParty where candidateName=:name`,
+                [newParty, name],
+                { autoCommit: true }
+            );
+        }
+        else if(newParty == null){
+            result = await connection.execute(
+                `UPDATE CandidatePartyMembership SET sex=:newGender where candidateName=:name`,
+                [newGender, name],
+                { autoCommit: true }
+            );
+        }
+        else{
+            result = await connection.execute(
+                `UPDATE CandidatePartyMembership SET partyName=:newParty where candidateName=:name`,
+                [newParty, name],
+                { autoCommit: true }
+            );
+            await connection.execute(
+                `UPDATE CandidatePartyMembership SET sex=:newGender where candidateName=:name`,
+                [newGender, name],
+                { autoCommit: true }
+            );
+        }
+        return result.rowsAffected && result. rowsAffected > 0;
+    }).catch((err) => {
+        return err;
     });
 }
 
@@ -143,15 +164,8 @@ async function deleteFromDemotable(name){
             {autoCommit: true}
         );
         return result.rowsAffected && result.rowsAffected > 0;
-    })
-}
-
-async function countDemotable() {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
-        return result.rows[0][0];
-    }).catch(() => {
-        return -1;
+    }).catch((err) => {
+        return err;
     });
 }
 
@@ -173,32 +187,32 @@ async function initializeDB(){
         } catch (commitErr) {
             console.error('Error committing transaction:', commitErr);
         }
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
+
 async function projectDB(query){
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`SELECT ${query} FROM SenatorRecommendParliamentaryGroupMembership`);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
+
 async function joinDB(name){
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(`
-            SELECT 
-                b.title AS billTitle, 
-                mv.mpName AS mpVoter, 
-                mv.vote
-            FROM 
-                BillIntroduce1 b
-            JOIN 
-                MPVote mv
-            ON 
-                b.billNumber = mv.billNumber
-            WHERE 
-                b.introducer = '${name}'`);
-        console.log(result.rows);
+            SELECT cpm.candidateName, cpm.partyName, pp.dateRegistered, pp.numSeatsInParliament
+            FROM CandidatePartyMembership cpm
+            JOIN PoliticalParty1 pp ON cpm.partyName = pp.partyName
+            WHERE pp.partyName = :name`,
+            [name]);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
 
 async function groupByDB(){
@@ -209,7 +223,9 @@ async function groupByDB(){
             JOIN ElectionWin W ON M.candidateName = W.winner
             GROUP BY M.partyName`);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
 
 async function havingDB(){
@@ -220,7 +236,9 @@ async function havingDB(){
             GROUP BY partyName
             HAVING MAX(numSeatsInParliament) >= 12`);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
 
 async function nestedGroupByDB(){
@@ -234,7 +252,9 @@ async function nestedGroupByDB(){
             ) AggregatedVotes
             GROUP BY districtName, electionYear`);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
 }
 
 async function divisionDB(){
@@ -255,7 +275,42 @@ async function divisionDB(){
             )
 `);
         return result.rows;
-    })
+    }).catch((err) => {
+        return err;
+    });
+}
+
+async function resetDB(){
+    return await withOracleDB(async (connection) => {
+        await connection.execute(`drop table ElectoralDistrict cascade constraints`);
+        await connection.execute("drop table PoliticalParty1 cascade constraints");
+        await connection.execute("drop table PoliticalParty2 cascade constraints");
+        await connection.execute("drop table CandidatePartyMembership cascade constraints");
+        await connection.execute("drop table ElectionWin cascade constraints");
+        await connection.execute("drop table Elect cascade constraints");
+        await connection.execute("drop table MemberOfParliament cascade constraints");
+        await connection.execute("drop table Form1 cascade constraints");
+        await connection.execute("drop table Form2 cascade constraints");
+        await connection.execute("drop table PrimeMinister cascade constraints");
+        await connection.execute("drop table CabinetMember cascade constraints");
+        await connection.execute("drop table ParliamentaryGroup cascade constraints");
+        await connection.execute("drop table SenatorRecommendParliamentaryGroupMembership cascade constraints");
+        await connection.execute("drop table Affiliate cascade constraints");
+        await connection.execute("drop table Committee cascade constraints");
+        await connection.execute("drop table CommitteeMembership cascade constraints");
+        await connection.execute("drop table BillIntroduce1 cascade constraints");
+        await connection.execute("drop table BillIntroduce2 cascade constraints");
+        await connection.execute("drop table Amend cascade constraints");
+        await connection.execute("drop table SenatorVote cascade constraints");
+        await connection.execute("drop table MPVote cascade constraints");
+        try {
+            await connection.commit(); 
+        } catch (commitErr) {
+            console.error('Error committing transaction:', commitErr);
+        }
+    }).catch((err) => {
+        return err;
+    });
 }
 module.exports = {
     testOracleConnection,
@@ -263,7 +318,6 @@ module.exports = {
     initiateDemotable, 
     insertDemotable, 
     updateNameDemotable, 
-    countDemotable,
     initializeDB,
     projectDB,
     joinDB,
@@ -271,5 +325,6 @@ module.exports = {
     havingDB,
     nestedGroupByDB,
     divisionDB,
+    resetDB,
     deleteFromDemotable
 };
